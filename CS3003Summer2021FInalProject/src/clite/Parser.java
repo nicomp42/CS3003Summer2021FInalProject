@@ -175,7 +175,7 @@ public class Parser {
     }
   
     private Type type () {
-        // Type  -->  int | bool | float | char 
+        // Type  -->  int | bool | float | char | string
         Type t = null;
 	if (token.type().equals(TokenType.Int)) {
 		t = Type.INT;
@@ -185,9 +185,11 @@ public class Parser {
 		t = Type.CHAR;
 	} else if (token.type().equals(TokenType.Float)) {
 		t = Type.FLOAT;
+	} else if (token.type().equals(TokenType.String)) {
+		t = Type.STRING;
 	} else if (token.type().equals(TokenType.Void)) {
 		t = Type.VOID;
-	} else error("int | bool | float | char");
+	} else error("int | bool | float | char | string");
         // student exercise
         return t;          
     }
@@ -449,6 +451,9 @@ public class Parser {
 	} else if (token.type().equals(TokenType.FloatLiteral)) {
 		float f_val = Float.parseFloat(match(token.type()));
 		val = new FloatValue(f_val);
+	} else if (token.type().equals(TokenType.StringLiteral)) {
+		String s_val = match(token.type()).charAt(0);	// I HAVE NO CLUE WHAT I'M DOING HERE
+		val = new StringValue(s_val);
 	} else {
 		char c_val = match(token.type()).charAt(0);
 		val = new CharValue(c_val); 
@@ -489,6 +494,7 @@ public class Parser {
             || token.type().equals(TokenType.Bool) 
             || token.type().equals(TokenType.Float)
             || token.type().equals(TokenType.Char)
+			|| token.type().equals(TokenType.String)
 	    || token.type().equals(TokenType.Void);
     }
     
@@ -496,7 +502,8 @@ public class Parser {
         return token.type().equals(TokenType.IntLiteral) ||
             isBooleanLiteral() ||
             token.type().equals(TokenType.FloatLiteral) ||
-            token.type().equals(TokenType.CharLiteral);
+            token.type().equals(TokenType.CharLiteral) ||
+			token.type().equals(TokenType.StringLiteral);
     }
     
     private boolean isBooleanLiteral( ) {
