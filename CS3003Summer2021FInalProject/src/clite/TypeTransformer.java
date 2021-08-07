@@ -128,6 +128,13 @@ public class TypeTransformer {
             Statement ebr = T (c.elsebranch, tm);
             return new Conditional(test,  tbr, ebr);
         }
+        if (s instanceof ConditionalSwitch) {
+            ConditionalSwitch c = (ConditionalSwitch)s;
+            Expression test = T (c.test, tm);
+            Statement tbr = T (c.casebranch, tm);
+            Statement ebr = T (c.defaultbranch, tm);
+            return new ConditionalSwitch(test,  tbr, ebr);
+        }
         if (s instanceof Loop) {
             Loop l = (Loop)s;
             Expression test = T (l.test, tm);

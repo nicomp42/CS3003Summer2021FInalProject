@@ -90,6 +90,13 @@ class Program {
 			String then_branch = spcing + "then:\n" + inner_display(spc, spc + spcing, con_node.thenbranch);
 			String else_branch = spcing +  "else:\n " + inner_display(spc, spc + spcing, con_node.elsebranch);
 			return prefix + test + then_branch + else_branch;
+		} if (node instanceof ConditionalSwitch) {
+			ConditionalSwitch swi_node = (ConditionalSwitch) node;
+			String prefix = spcing + "ConditionalSwitch:\n";
+			String test = inner_display(spc, spc + spcing, swi_node.test);
+			String case_branch = spcing + "case:\n" + inner_display(spc, spc + spcing, swi_node.casebranch);
+			String default_branch = spcing +  "default:\n " + inner_display(spc, spc + spcing, swi_node.defaultbranch);
+			return prefix + test + case_branch + default_branch;
 		} if (node instanceof Loop) {
 			Loop l_node = (Loop) node;
 			String prefix = spcing + "Loop:\n";

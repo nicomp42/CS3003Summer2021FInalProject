@@ -193,8 +193,8 @@ public class Parser {
     }
   
     private Statement statement() {
-        // Statement --> ; | Block | Assignment | IfStatement | WhileStatement | CallStatement | ReturnStatement | Print
-        // Statement --> ; | Block | Assignment | IfStatement | WhileStatement | Print
+        // Statement --> ; | Block | Assignment | IfStatement | SwitchStatement | WhileStatement | CallStatement | ReturnStatement | Print
+        // Statement --> ; | Block | Assignment | IfStatement | SwitchStatement | WhileStatement | Print
         Statement s = new Skip();
 	if (token.type().equals(TokenType.LeftBrace)) {
 		match(TokenType.LeftBrace);
@@ -209,6 +209,8 @@ public class Parser {
 		match(TokenType.Semicolon);
 	} else if (token.type().equals(TokenType.If)) {
 		s = ifStatement();
+	} else if (token.type().equals(TokenType.Switch)) {
+		s = switchStatement();
 	} else if (token.type().equals(TokenType.While)) {
 		s = whileStatement();
 	} else if (token.type().equals(TokenType.Return)) {
@@ -268,6 +270,21 @@ public class Parser {
 	match(TokenType.RightParen);
 	Statement tp = statement();
 	if (token.type().equals(TokenType.Else)) {
+		match(token.type());
+		Statement ep = statement();
+		return new Conditional(test, tp, ep);
+	}
+        return new Conditional(test, tp);  // student exercise
+    }
+    
+    private Conditional switchStatement () {
+        // SwitchStatement --> switch ( Expression ) case constant: Statement [ default: Statement ]
+	match(token.type());
+	match(TokenType.LeftParen);
+	Expression test = expression();
+	match(TokenType.RightParen);
+	Statement tp = statement();
+	if (token.type().equals(TokenType.Default)) {
 		match(token.type());
 		Statement ep = statement();
 		return new Conditional(test, tp, ep);

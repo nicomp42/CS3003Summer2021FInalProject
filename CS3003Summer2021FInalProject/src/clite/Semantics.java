@@ -48,6 +48,7 @@ public class Semantics {
         if (s instanceof Skip) return M((Skip)s, state);
         if (s instanceof Assignment)  return M((Assignment)s, state);
         if (s instanceof Conditional)  return M((Conditional)s, state);
+        if (s instanceof ConditionalSwitch)  return M((ConditionalSwitch)s, state);
         if (s instanceof Loop)  return M((Loop)s, state);
         if (s instanceof Block)  return M((Block)s, state);
 	if (s instanceof CallStatement) return M((CallStatement)s, state);
@@ -85,6 +86,14 @@ public class Semantics {
             		return M (c.thenbranch, state);
 		} else {
             		return M (c.elsebranch, state);
+		}
+    }
+    
+    State M (ConditionalSwitch c, State state) {
+        if (M(c.test, state).boolValue( )) {
+            		return M (c.casebranch, state);
+		} else {
+            		return M (c.defaultbranch, state);
 		}
     }
   

@@ -323,6 +323,15 @@ public class StaticTypeCheck {
 	    check( ttype == Type.BOOL, "test expression not of type bool: " + c.test);
 	    return;
 	}
+	if (s instanceof ConditionalSwitch) {
+	    ConditionalSwitch c = (ConditionalSwitch) s;
+	    V(c.test, tm);
+	    V(c.casebranch, tm);
+	    V(c.defaultbranch, tm);
+	    Type ttype = typeOf(c.test, tm);
+	    check( ttype == Type.BOOL, "test expression not of type bool: " + c.test);
+	    return;
+	}
 	if (s instanceof Loop) {
 	    Loop l = (Loop) s;
 	    V(l.test, tm);

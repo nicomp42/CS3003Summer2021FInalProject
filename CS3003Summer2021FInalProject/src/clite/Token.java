@@ -16,6 +16,7 @@ public class Token {
     public static final Token falseTok = new Token(TokenType.False, "false");
     public static final Token floatTok = new Token(TokenType.Float, "float");
     public static final Token ifTok = new Token(TokenType.If, "if");
+    public static final Token switchTok = new Token(TokenType.Switch, "switch");
     public static final Token intTok = new Token(TokenType.Int, "int");
     public static final Token mainTok = new Token(TokenType.Main, "main");
     public static final Token trueTok = new Token(TokenType.True, "true");
