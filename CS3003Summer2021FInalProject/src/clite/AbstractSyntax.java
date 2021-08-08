@@ -265,6 +265,8 @@ class Type {
     final static Type CHAR = new Type("char");
     final static Type FLOAT = new Type("float");
     final static Type VOID = new Type("void");
+    //new data type
+    final static Type BIG = new Type("big");
     // final static Type UNDEFINED = new Type("undef");
     
     private String id;
@@ -275,7 +277,7 @@ class Type {
 
     // returns the equivaled Jasmin type descriptor
     public String to_jasmin() {
-	if(this.equals(Type.INT) || this.equals(Type.BOOL) || this.equals(Type.CHAR))
+	if(this.equals(Type.INT) || this.equals(Type.BOOL) || this.equals(Type.CHAR)||this.equals(Type.BIG))
 		return "I";
 	else if (this.equals(Type.FLOAT))
 		return "F";
@@ -536,9 +538,35 @@ abstract class Value extends Expression {
         if (type == Type.BOOL) return new BoolValue( );
         if (type == Type.CHAR) return new CharValue( );
         if (type == Type.FLOAT) return new FloatValue( );
+        if (type == Type.BIG) return new BigValue( );
         throw new IllegalArgumentException("Illegal type in mkValue");
     }
 }
+
+class BigValue extends Value {
+    private BigValue value;
+    
+    BigValue ( ) { type = Type.BIG; }
+
+    BigValue (BigValue v) { this( ); value = v; undef = false; }
+
+    BigValue BigValue ( ) {
+        assert !undef : "reference to undefined big value";
+        return value;
+    }
+
+    public String toString( ) {
+        if (undef)  return "undef";
+        return "" + value;
+    }
+
+    public boolean equals(Object obj) {
+    	BigValue iv = (BigValue) obj;
+	return iv.value == this.value;
+    }
+
+}
+
 
 class IntValue extends Value {
     private int value = 0;
@@ -694,6 +722,7 @@ class Operator {
     final static String INT = "int";
     final static String FLOAT = "float";
     final static String CHAR = "char";
+    final static String BIG = "big";
     // Typed Operators
     // RelationalOp = < | <= | == | != | >= | >
     final static String INT_LT = "INT<";
@@ -767,6 +796,7 @@ class Operator {
     boolean NegateOp ( ) { return (val.equals(NEG) || val.equals(INT_NEG) || 
 				   val.equals(FLOAT_NEG)); }
     boolean intOp ( ) { return val.equals(INT); }
+    boolean bigOp ( ) { return val.equals(BIG); }
     boolean floatOp ( ) { return val.equals(FLOAT); }
     boolean charOp ( ) { return val.equals(CHAR); }
 

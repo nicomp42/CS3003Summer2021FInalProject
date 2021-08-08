@@ -187,7 +187,9 @@ public class Parser {
 		t = Type.FLOAT;
 	} else if (token.type().equals(TokenType.Void)) {
 		t = Type.VOID;
-	} else error("int | bool | float | char");
+	}  else if (token.type().equals(TokenType.Big)) {
+		t = Type.BIG;
+	}else error("int | bool | float | char");
         // student exercise
         return t;          
     }
@@ -209,7 +211,9 @@ public class Parser {
 		match(TokenType.Semicolon);
 	} else if (token.type().equals(TokenType.If)) {
 		s = ifStatement();
-	} else if (token.type().equals(TokenType.While)) {
+	}else if (token.type().equals(TokenType.Try)) {
+		s = ifStatement();
+	}else if (token.type().equals(TokenType.While)) {
 		s = whileStatement();
 	} else if (token.type().equals(TokenType.Switch)) {
 		s = switchStatement();
@@ -276,6 +280,20 @@ public class Parser {
 	}
         return new Conditional(test, tp);  // student exercise
     }
+	private Conditional tryStatement () {
+        // IfStatement --> if ( Expression ) Statement [ else Statement ]
+	match(token.type());
+	match(TokenType.LeftParen);
+	Expression test = expression();
+	match(TokenType.RightParen);
+	Statement tp = statement();
+	if (token.type().equals(TokenType.Else)) {
+		match(token.type());
+		Statement ep = statement();
+		return new Conditional(test, tp, ep);
+		}
+		return new Conditional(test, tp);
+		}
   
 	private Switch switchStatement () {
 		//switchStatement --> case ( Expression ) Statement [ default Statement ]
@@ -299,7 +317,7 @@ public class Parser {
 	Expression test = expression();
 	match(TokenType.RightParen);
 	Statement st = statement();
-        return new Loop(test, st);  // student exercise
+        return new Loop(test, st); 
     }
 
     private Return returnStatement() {
@@ -494,6 +512,7 @@ public class Parser {
             || token.type().equals(TokenType.Bool) 
             || token.type().equals(TokenType.Float)
             || token.type().equals(TokenType.Char)
+			|| token.type().equals(TokenType.Big)
 	    || token.type().equals(TokenType.Void);
     }
     
@@ -501,7 +520,8 @@ public class Parser {
         return token.type().equals(TokenType.IntLiteral) ||
             isBooleanLiteral() ||
             token.type().equals(TokenType.FloatLiteral) ||
-            token.type().equals(TokenType.CharLiteral);
+            token.type().equals(TokenType.CharLiteral) ||
+			token.type().equals(TokenType.BigLiteral) ;
     }
     
     private boolean isBooleanLiteral( ) {
@@ -510,8 +530,8 @@ public class Parser {
     }
     
     public static void main(String args[]) {
-//        Parser parser  = new Parser(new Lexer(args[0])); //Picks the file name and feeds it to the lexer.
-//        Parser parser  = new Parser(new Lexer("hello.cpp"));
+        //Parser parser  = new Parser(new Lexer("undeclaredVariable.cpp"));
+		//Parser parser  = new Parser(new Lexer("hello.cpp"));
         Parser parser  = new Parser(new Lexer("CS3003Summer2021FInalProject/hello.cpp"));
         Program prog = parser.program();
         

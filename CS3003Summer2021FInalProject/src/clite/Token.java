@@ -11,6 +11,7 @@ public class Token {
 
     public static final Token eofTok = new Token(TokenType.Eof, "<<EOF>>");
     public static final Token boolTok = new Token(TokenType.Bool, "bool");
+    public static final Token bigTok = new Token(TokenType.Big, "big");
     public static final Token charTok = new Token(TokenType.Char, "char");
     public static final Token elseTok = new Token(TokenType.Else, "else");
     public static final Token falseTok = new Token(TokenType.False, "false");
@@ -41,6 +42,7 @@ public class Token {
     public static final Token notTok = new Token(TokenType.Not, "!");
     public static final Token noteqTok = new Token(TokenType.NotEqual, "!=");
     public static final Token plusTok = new Token(TokenType.Plus, "+");
+    public static final Token plusPlusTok = new Token(TokenType.PlusPlus, "++");
     public static final Token minusTok = new Token(TokenType.Minus, "-");
     public static final Token multiplyTok = new Token(TokenType.Multiply, "*");
     public static final Token divideTok = new Token(TokenType.Divide, "/");
@@ -80,7 +82,9 @@ public class Token {
     public static Token mkIntLiteral (String name) {
         return new Token(TokenType.IntLiteral, name);
     }
-
+    public static Token mkBigLiteral (String name) {
+        return new Token(TokenType.BigLiteral, name);
+    }
     public static Token mkFloatLiteral (String name) {
         return new Token(TokenType.FloatLiteral, name);
     }
