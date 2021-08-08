@@ -136,6 +136,9 @@ public class CodeGen {
         } if (s instanceof Conditional) { 
 			M((Conditional)s, symtable, jfile);
 			return;
+        } if (s instanceof Switch) { 
+			M((Switch)s, symtable, jfile);
+			return;	
         } if (s instanceof Loop) { 
 			M((Loop)s, symtable, jfile);
 			return;
