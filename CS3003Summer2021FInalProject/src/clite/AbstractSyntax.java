@@ -287,7 +287,7 @@ class Type {
 }
 
 abstract class Statement {
-    // Statement = Skip | Block | Assignment | Conditional | Loop | Call | Return
+    // Statement = Skip | Block | Assignment | Conditional | Switch | Loop | Call | Return
 
 	boolean hasReturn() {
 		return false;
