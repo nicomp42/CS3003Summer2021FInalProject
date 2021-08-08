@@ -156,6 +156,13 @@ class Program {
 			String index = spcing + spc + "id: " + a_node.id + "\n";
 			String contents = inner_display(spc, spc + spcing, a_node.index);
 			return prefix + index + contents;
+        } if (node instanceof Switch) { //similar to Conditional, above... implements "switch" control structure
+            Switch switch_node = (Switch) node;
+            String prefix = spcing + "Switch:\n";
+            String test = inner_display(spc, spc + spcing, switch_node.test);
+            String case_branch = spcing + "case:\n" + inner_display(spc, spc + spcing, switch_node.casebranch);
+            String default_branch = spcing +  "default:\n " + inner_display(spc, spc + spcing, switch_node.defaultbranch);
+            return prefix + test + case_branch + default_branch;
 		} if (node instanceof Print) {
 			Print p_node = (Print) node;
 			String prefix = spcing + "Print:\n";
@@ -358,6 +365,37 @@ class Conditional extends Statement {
    	} 
 	*/
 }
+
+class Switch extends Statement {
+    // Switch = Expression test; Statement casebranch, defaultbranch
+        Expression test;
+        Statement casebranch, defaultbranch;
+        
+        Switch (Expression t, Statement tp) {
+            test = t; casebranch = tp; defaultbranch = new Skip( );
+        }
+        
+        Switch (Expression t, Statement tp, Statement ep) {
+            test = t; casebranch = tp; defaultbranch = ep;
+        }
+    
+        boolean hasReturn() {
+            return (casebranch.hasReturn() || defaultbranch.hasReturn());
+        }
+    
+        boolean mustReturn() {
+            return (casebranch.hasReturn() && defaultbranch.hasReturn());
+        }
+    
+        /*
+        public void display() {
+            System.out.println("Switch: ");
+            System.out.print("\t"); test.display();
+            System.out.println("\t"); casebranch.display();	
+            System.out.println("\t"); defaultbranch.display();
+           } 
+        */
+    }
 
 class Loop extends Statement {
 // Loop = Expression test; Statement body

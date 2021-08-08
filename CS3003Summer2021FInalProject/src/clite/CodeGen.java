@@ -238,6 +238,38 @@ public class CodeGen {
 	
 
     }
+
+	void M (Switch sw, SymbolTable symtable, JasminFile jfile) throws IOException {
+	int current_branch_cnt = branch_cnt;
+	branch_cnt++;
+
+	M(sw.test, symtable, jfile);
+	// We can expect a 0 or 1 to be here
+	jfile.writeln("ifne TRUE" + current_branch_cnt);
+
+	jfile.writeln("goto FALSE" + current_branch_cnt);
+
+	jfile.writeln();
+
+	jfile.writeln("TRUE" + current_branch_cnt + ":");
+	M(sw.casebranch, symtable, jfile);	
+
+	if (! sw.mustReturn()) {
+		jfile.writeln("goto COMPLETE" + current_branch_cnt);
+		
+		jfile.writeln();
+	}
+
+	jfile.writeln("FALSE" + current_branch_cnt + ":");
+	M(sw.defaultbranch, symtable, jfile);
+
+	jfile.writeln();
+	
+	if (! sw.mustReturn()) 
+		jfile.writeln("COMPLETE" + current_branch_cnt + ":");
+	
+
+    }
    
     void M (Loop l, SymbolTable symtable, JasminFile jfile) throws IOException {
 		// translate the conditional

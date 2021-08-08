@@ -195,8 +195,8 @@ public class Parser {
     }
   
     private Statement statement() {
-        // Statement --> ; | Block | Assignment | IfStatement | WhileStatement | CallStatement | ReturnStatement | Print
-        // Statement --> ; | Block | Assignment | IfStatement | WhileStatement | Print
+        // Statement --> ; | Block | Assignment | IfStatement | WhileStatement | CallStatement | ReturnStatement | SwitchStatement | Print
+        // Statement --> ; | Block | Assignment | IfStatement | WhileStatement | SwitchStatement | Print
         Statement s = new Skip();
 	if (token.type().equals(TokenType.LeftBrace)) {
 		match(TokenType.LeftBrace);
@@ -218,6 +218,8 @@ public class Parser {
 	} else if (token.type().equals(TokenType.Return)) {
 		s = returnStatement();
 		match(TokenType.Semicolon);
+	} else if (token.type().equals(TokenType.Switch)) { 
+		s = switchStatement();
 	} else if (token.type().equals(TokenType.Print)) {
 		s = print();
 		match(TokenType.Semicolon);
@@ -289,17 +291,33 @@ public class Parser {
 		match(token.type());
 		Statement ep = statement();
 		return new Conditional(test, tp, ep);
+		}
+		return new Conditional(test, tp);
+		}
+  
+	private Switch switchStatement () {
+		//SwitchStatement --> case ( Expression ) Statement [ default Statement ]
+	match(token.type());
+	match(TokenType.LeftParen);
+	Expression test = expression();
+	match(TokenType.RightParen);
+	Statement tp = statement();
+	if (token.type().equals(TokenType.Else)) {
+		match(token.type());
+		Statement ep = statement();
+		return new Switch(test, tp, ep);
 	}
-        return new Conditional(test, tp);  // student exercise
+        return new Switch(test, tp);
     }
+
     private Loop whileStatement () {
-        // WhileStatement --> while ( Expression ) Statement
+    	// WhileStatement --> while ( Expression ) Statement
 	match(token.type());
 	match(TokenType.LeftParen);
 	Expression test = expression();
 	match(TokenType.RightParen);
 	Statement st = statement();
-        return new Loop(test, st);  // student exercise
+        return new Loop(test, st); 
     }
 
     private Return returnStatement() {
@@ -309,7 +327,7 @@ public class Parser {
     }
 
     private Print print() {
-	// Print --> print ( Expression )
+		// Print --> print ( Expression )
 	match(token.type());
 	match(TokenType.LeftParen);
 	Expression to_print = expression();
@@ -512,9 +530,9 @@ public class Parser {
     }
     
     public static void main(String args[]) {
-//        Parser parser  = new Parser(new Lexer(args[0])); //Picks the file name and feeds it to the lexer.
-      Parser parser  = new Parser(new Lexer("CS3003Summer2021FInalProject/hello.cpp"));
         //Parser parser  = new Parser(new Lexer("undeclaredVariable.cpp"));
+		//Parser parser  = new Parser(new Lexer("hello.cpp"));
+        Parser parser  = new Parser(new Lexer("CS3003Summer2021FInalProject/hello.cpp"));
         Program prog = parser.program();
         
         prog.applyTypeSystemRules();
