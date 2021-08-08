@@ -4,11 +4,11 @@ package clite;
 
 public enum TokenType {
      Big, Bool, Char, Else, False, Float,
-     If, Int, Main, True, While, Void, Return, Print,
+     If,Try, Int, Main, True, While, Void, Return, Print,
      Eof, LeftBrace, RightBrace, LeftBracket, RightBracket,
      LeftParen, RightParen, Semicolon, Comma, Assign,
      Equals, Less, LessEqual, Greater, GreaterEqual,
-     Not, NotEqual, Plus, Minus, Multiply,
+     Not, NotEqual, Plus, PlusPlus, Minus, Multiply,
      Divide, And, Or, Identifier, IntLiteral,
      FloatLiteral, CharLiteral, BigLiteral
 }

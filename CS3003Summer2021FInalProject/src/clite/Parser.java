@@ -211,7 +211,9 @@ public class Parser {
 		match(TokenType.Semicolon);
 	} else if (token.type().equals(TokenType.If)) {
 		s = ifStatement();
-	} else if (token.type().equals(TokenType.While)) {
+	}else if (token.type().equals(TokenType.Try)) {
+		s = ifStatement();
+	}else if (token.type().equals(TokenType.While)) {
 		s = whileStatement();
 	} else if (token.type().equals(TokenType.Return)) {
 		s = returnStatement();
@@ -276,7 +278,20 @@ public class Parser {
 	}
         return new Conditional(test, tp);  // student exercise
     }
-  
+	private Conditional tryStatement () {
+        // IfStatement --> if ( Expression ) Statement [ else Statement ]
+	match(token.type());
+	match(TokenType.LeftParen);
+	Expression test = expression();
+	match(TokenType.RightParen);
+	Statement tp = statement();
+	if (token.type().equals(TokenType.Else)) {
+		match(token.type());
+		Statement ep = statement();
+		return new Conditional(test, tp, ep);
+	}
+        return new Conditional(test, tp);  // student exercise
+    }
     private Loop whileStatement () {
         // WhileStatement --> while ( Expression ) Statement
 	match(token.type());
@@ -439,9 +454,6 @@ public class Parser {
 	} else if (token.type().equals(TokenType.FloatLiteral)) {
 		float f_val = Float.parseFloat(match(token.type()));
 		val = new FloatValue(f_val);
-	} else if (token.type().equals(TokenType.BigLiteral)) {
-		int i_val = Integer.parseInt(match(token.type()));
-		val = new BigValue(i_val);
 	} else {
 		char c_val = match(token.type()).charAt(0);
 		val = new CharValue(c_val); 
@@ -501,8 +513,8 @@ public class Parser {
     
     public static void main(String args[]) {
 //        Parser parser  = new Parser(new Lexer(args[0])); //Picks the file name and feeds it to the lexer.
-//        Parser parser  = new Parser(new Lexer("hello.cpp"));
-        Parser parser  = new Parser(new Lexer("undeclaredVariable.cpp"));
+      Parser parser  = new Parser(new Lexer("CS3003Summer2021FInalProject/hello.cpp"));
+        //Parser parser  = new Parser(new Lexer("undeclaredVariable.cpp"));
         Program prog = parser.program();
         
         prog.applyTypeSystemRules();

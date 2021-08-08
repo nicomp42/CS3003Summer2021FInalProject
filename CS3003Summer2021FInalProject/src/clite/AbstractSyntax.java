@@ -259,7 +259,7 @@ class Type {
     final static Type FLOAT = new Type("float");
     final static Type VOID = new Type("void");
     //new data type
-    final static Type BIG = new Type("BIG");
+    final static Type BIG = new Type("big");
     // final static Type UNDEFINED = new Type("undef");
     
     private String id;
@@ -270,7 +270,7 @@ class Type {
 
     // returns the equivaled Jasmin type descriptor
     public String to_jasmin() {
-	if(this.equals(Type.INT) || this.equals(Type.BOOL) || this.equals(Type.CHAR))
+	if(this.equals(Type.INT) || this.equals(Type.BOOL) || this.equals(Type.CHAR)||this.equals(Type.BIG))
 		return "I";
 	else if (this.equals(Type.FLOAT))
 		return "F";
@@ -507,10 +507,10 @@ abstract class Value extends Expression {
 
 class BigValue extends Value {
     private BigValue value;
-
+    
     BigValue ( ) { type = Type.BIG; }
 
-    BigValue (long v) { this( ); value = v; undef = false; }
+    BigValue (BigValue v) { this( ); value = v; undef = false; }
 
     BigValue BigValue ( ) {
         assert !undef : "reference to undefined big value";
