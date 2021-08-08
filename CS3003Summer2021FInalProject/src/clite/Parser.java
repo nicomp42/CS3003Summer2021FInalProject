@@ -495,7 +495,7 @@ public class Parser {
     public static void main(String args[]) {
 //        Parser parser  = new Parser(new Lexer(args[0])); //Picks the file name and feeds it to the lexer.
 //        Parser parser  = new Parser(new Lexer("hello.cpp"));
-        Parser parser  = new Parser(new Lexer("undeclaredVariable.cpp"));
+        Parser parser  = new Parser(new Lexer("CS3003Summer2021FInalProject/hello.cpp"));
         Program prog = parser.program();
         
         prog.applyTypeSystemRules();
