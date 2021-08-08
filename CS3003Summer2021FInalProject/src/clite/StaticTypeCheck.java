@@ -338,12 +338,12 @@ public class StaticTypeCheck {
 	    return;
 	}
 	if (s instanceof Switch) {
-	    Switch c = (Switch) s;
-	    V(c.test, tm);
-	    V(c.casebranch, tm);
-	    V(c.defaultbranch, tm);
-	    Type ttype = typeOf(c.test, tm);
-	    check( ttype == Type.BOOL, "test expression not of type bool: " + c.test);
+	    Switch sw = (Switch) s;
+	    V(sw.test, tm);
+	    V(sw.casebranch, tm);
+	    V(sw.defaultbranch, tm);
+	    Type ttype = typeOf(sw.test, tm);
+	    check( ttype == Type.BOOL, "test expression not of type bool: " + sw.test);
 	    return;
 	}
 	if (s instanceof CallStatement) {

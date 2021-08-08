@@ -95,11 +95,11 @@ public class Semantics {
         else return state;
     }
 
-    State M (Switch c, State state) {
-        if (M(c.test, state).boolValue( )) {
-            		return M (c.casebranch, state);
+    State M (Switch sw, State state) {
+        if (M(sw.test, state).boolValue( )) {
+            		return M (sw.casebranch, state);
 		} else {
-            		return M (c.defaultbranch, state);
+            		return M (sw.defaultbranch, state);
 		}
     }
 

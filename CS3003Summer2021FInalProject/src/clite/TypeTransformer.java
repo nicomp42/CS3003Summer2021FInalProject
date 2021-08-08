@@ -142,10 +142,10 @@ public class TypeTransformer {
             return out;
         }
 		if (s instanceof Switch) {
-            Switch c = (Switch)s;
-            Expression test = T (c.test, tm);
-            Statement tbr = T (c.casebranch, tm);
-            Statement ebr = T (c.defaultbranch, tm);
+            Switch sw = (Switch)s;
+            Expression test = T (sw.test, tm);
+            Statement tbr = T (sw.casebranch, tm);
+            Statement ebr = T (sw.defaultbranch, tm);
             return new Switch(test,  tbr, ebr);
         }
 	if (s instanceof Return) {
