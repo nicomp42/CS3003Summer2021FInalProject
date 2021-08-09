@@ -167,6 +167,8 @@ public class Semantics {
 
 	if (op.val.equals(Operator.FLOAT_PLUS)) 
             return new FloatValue(v1.floatValue( ) + v2.floatValue( ));
+	if (op.val.equals(Operator.FLOAT_PLUSPLUS)) 
+            return new FloatValue(v1.floatValue( ) + v2.floatValue( ) + v2.floatValue( ));
         if (op.val.equals(Operator.FLOAT_MINUS)) 
             return new FloatValue(v1.floatValue( ) - v2.floatValue( ));
         if (op.val.equals(Operator.FLOAT_TIMES)) 
