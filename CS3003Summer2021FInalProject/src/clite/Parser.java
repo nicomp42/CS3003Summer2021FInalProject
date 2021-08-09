@@ -284,7 +284,7 @@ public class Parser {
 	Expression test = expression();
 	match(TokenType.RightParen);
 	Statement tp = statement();
-	if (token.type().equals(TokenType.Else)) {
+	if (token.type().equals(TokenType.Switch)) {
 		match(token.type());
 		Statement ep = statement();
 		return new Switch(test, tp, ep);
