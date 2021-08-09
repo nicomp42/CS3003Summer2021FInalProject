@@ -136,7 +136,7 @@ public class CodeGen {
         } if (s instanceof Conditional) { 
 			M((Conditional)s, symtable, jfile);
 			return;
-        } if (s instanceof Switch) { 
+		} if (s instanceof Switch) { 
 			M((Switch)s, symtable, jfile);
 			return;	
         } if (s instanceof Loop) { 
@@ -366,6 +366,7 @@ public class CodeGen {
             if (u.op.NotOp( ))        return (Type.BOOL);
             else if (u.op.NegateOp( )) return typeOf(u.term,sym);
             else if (u.op.intOp( ))    return (Type.INT);
+			//else if (u.op.bigOp( ))    return (Type.BIG);
             else if (u.op.floatOp( )) return (Type.FLOAT);
             else if (u.op.charOp( ))  return (Type.CHAR);
 	    System.out.println("nothing in Unary!");

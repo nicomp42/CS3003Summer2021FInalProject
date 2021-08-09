@@ -278,7 +278,7 @@ public class Parser {
     }
   
 	private Switch switchStatement () {
-		//switchStatement --> case ( Expression ) Statement [ default Statement ]
+		//SwitchStatement --> case ( Expression ) Statement [ default Statement ]
 	match(token.type());
 	match(TokenType.LeftParen);
 	Expression test = expression();
