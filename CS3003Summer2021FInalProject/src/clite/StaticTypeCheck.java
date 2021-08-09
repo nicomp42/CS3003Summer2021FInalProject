@@ -179,7 +179,6 @@ public class StaticTypeCheck {
             if (u.op.NotOp( ))        return (Type.BOOL);
             else if (u.op.NegateOp( )) return typeOf(u.term,tm);
             else if (u.op.intOp( ))    return (Type.INT);
-			else if (u.op.bigOp( ))    return (Type.BIG);
             else if (u.op.floatOp( )) return (Type.FLOAT);
             else if (u.op.charOp( ))  return (Type.CHAR);
         } if (e instanceof CallExpression) {
@@ -241,7 +240,7 @@ public class StaticTypeCheck {
 	    if (u.op.NotOp( ))
 		check( typ == Type.BOOL, u.op + ": non-bool operand");
 	    else if (u.op.NegateOp( ))
-		check( typ == Type.INT || typ == Type.FLOAT ||typ == Type.BIG, "type error for " + u.op);
+		check( typ == Type.INT || typ == Type.FLOAT, "type error for " + u.op);
 	    else if (u.op.intOp( ) || u.op.floatOp( ) || u.op.charOp( ))
 		check( typ != Type.BOOL, u.op + ": bool operand");
 	    else
