@@ -179,6 +179,7 @@ public class StaticTypeCheck {
             if (u.op.NotOp( ))        return (Type.BOOL);
             else if (u.op.NegateOp( )) return typeOf(u.term,tm);
             else if (u.op.intOp( ))    return (Type.INT);
+			else if (u.op.bigOp( ))    return (Type.BIG);
             else if (u.op.floatOp( )) return (Type.FLOAT);
             else if (u.op.charOp( ))  return (Type.CHAR);
         } if (e instanceof CallExpression) {
@@ -240,7 +241,7 @@ public class StaticTypeCheck {
 	    if (u.op.NotOp( ))
 		check( typ == Type.BOOL, u.op + ": non-bool operand");
 	    else if (u.op.NegateOp( ))
-		check( typ == Type.INT || typ == Type.FLOAT, "type error for " + u.op);
+		check( typ == Type.INT || typ == Type.FLOAT ||typ == Type.BIG, "type error for " + u.op);
 	    else if (u.op.intOp( ) || u.op.floatOp( ) || u.op.charOp( ))
 		check( typ != Type.BOOL, u.op + ": bool operand");
 	    else
@@ -335,6 +336,15 @@ public class StaticTypeCheck {
 	    Block b = (Block) s;
 	    for (int i=0; i<b.members.size(); i++)
 		V(b.members.get(i), tm);
+	    return;
+	}
+	if (s instanceof Switch) {
+	    Switch sw = (Switch) s;
+	    V(sw.test, tm);
+	    V(sw.casebranch, tm);
+	    V(sw.defaultbranch, tm);
+	    Type ttype = typeOf(sw.test, tm);
+	    check( ttype == Type.BOOL, "test expression not of type bool: " + sw.test);
 	    return;
 	}
 	if (s instanceof CallStatement) {
