@@ -17,10 +17,12 @@ public class Token {
     public static final Token floatTok = new Token(TokenType.Float, "float");
     public static final Token ifTok = new Token(TokenType.If, "if");
     public static final Token intTok = new Token(TokenType.Int, "int");
+    public static final Token bigTok = new Token(TokenType.Big, "big");
     public static final Token mainTok = new Token(TokenType.Main, "main");
     public static final Token trueTok = new Token(TokenType.True, "true");
     public static final Token whileTok = new Token(TokenType.While, "while");
     public static final Token voidTok = new Token(TokenType.Void, "void");
+    public static final Token switchTok = new Token(TokenType.Switch, "switch");
     public static final Token returnTok = new Token(TokenType.Return, "return");
     public static final Token printTok = new Token(TokenType.Print, "print");
     public static final Token leftBraceTok = new Token(TokenType.LeftBrace, "{");
@@ -80,7 +82,9 @@ public class Token {
     public static Token mkIntLiteral (String name) {
         return new Token(TokenType.IntLiteral, name);
     }
-
+    public static Token mkBigLiteral (String name) {
+        return new Token(TokenType.BigLiteral, name);
+    }
     public static Token mkFloatLiteral (String name) {
         return new Token(TokenType.FloatLiteral, name);
     }

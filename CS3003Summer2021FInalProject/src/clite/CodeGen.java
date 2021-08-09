@@ -136,6 +136,9 @@ public class CodeGen {
         } if (s instanceof Conditional) { 
 			M((Conditional)s, symtable, jfile);
 			return;
+		} if (s instanceof Switch) { 
+			M((Switch)s, symtable, jfile);
+			return;	
         } if (s instanceof Loop) { 
 			M((Loop)s, symtable, jfile);
 			return;
@@ -238,6 +241,38 @@ public class CodeGen {
 	
 
     }
+
+	void M (Switch sw, SymbolTable symtable, JasminFile jfile) throws IOException {
+	int current_branch_cnt = branch_cnt;
+	branch_cnt++;
+
+	M(sw.test, symtable, jfile);
+	// We can expect a 0 or 1 to be here
+	jfile.writeln("ifne TRUE" + current_branch_cnt);
+
+	jfile.writeln("goto FALSE" + current_branch_cnt);
+
+	jfile.writeln();
+
+	jfile.writeln("TRUE" + current_branch_cnt + ":");
+	M(sw.casebranch, symtable, jfile);	
+
+	if (! sw.mustReturn()) {
+		jfile.writeln("goto COMPLETE" + current_branch_cnt);
+		
+		jfile.writeln();
+	}
+
+	jfile.writeln("FALSE" + current_branch_cnt + ":");
+	M(sw.defaultbranch, symtable, jfile);
+
+	jfile.writeln();
+	
+	if (! sw.mustReturn()) 
+		jfile.writeln("COMPLETE" + current_branch_cnt + ":");
+	
+
+    }
    
     void M (Loop l, SymbolTable symtable, JasminFile jfile) throws IOException {
 		// translate the conditional
@@ -331,6 +366,7 @@ public class CodeGen {
             if (u.op.NotOp( ))        return (Type.BOOL);
             else if (u.op.NegateOp( )) return typeOf(u.term,sym);
             else if (u.op.intOp( ))    return (Type.INT);
+			//else if (u.op.bigOp( ))    return (Type.BIG);
             else if (u.op.floatOp( )) return (Type.FLOAT);
             else if (u.op.charOp( ))  return (Type.CHAR);
 	    System.out.println("nothing in Unary!");

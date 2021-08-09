@@ -156,6 +156,13 @@ class Program {
 			String index = spcing + spc + "id: " + a_node.id + "\n";
 			String contents = inner_display(spc, spc + spcing, a_node.index);
 			return prefix + index + contents;
+        } if (node instanceof Switch) { //similar to Conditional, above... implements "switch" control structure
+            Switch switch_node = (Switch) node;
+            String prefix = spcing + "switch (" + switch_node.test +"):\n";
+            String test = inner_display(spc, spc + spcing, switch_node.test);
+            String case_branch = spc + spcing + "case 'x':\n" + inner_display(spc, spc + spc + spcing, switch_node.casebranch);
+            String default_branch = spc + spcing +  "default:\n " + inner_display(spc, spc + spc + spcing, switch_node.defaultbranch);
+            return prefix + test + case_branch + default_branch;
 		} if (node instanceof Print) {
 			Print p_node = (Print) node;
 			String prefix = spcing + "Print:\n";
@@ -258,6 +265,7 @@ class Type {
     final static Type CHAR = new Type("char");
     final static Type FLOAT = new Type("float");
     final static Type VOID = new Type("void");
+    final static Type BIG = new Type("big");
     // final static Type UNDEFINED = new Type("undef");
     
     private String id;
@@ -268,7 +276,7 @@ class Type {
 
     // returns the equivaled Jasmin type descriptor
     public String to_jasmin() {
-	if(this.equals(Type.INT) || this.equals(Type.BOOL) || this.equals(Type.CHAR))
+	if(this.equals(Type.INT) || this.equals(Type.BOOL) || this.equals(Type.CHAR)||this.equals(Type.BIG))
 		return "I";
 	else if (this.equals(Type.FLOAT))
 		return "F";
@@ -356,6 +364,37 @@ class Conditional extends Statement {
    	} 
 	*/
 }
+
+class Switch extends Statement {
+    // Switch = Expression test; Statement casebranch, defaultbranch
+        Expression test;
+        Statement casebranch, defaultbranch;
+        
+        Switch (Expression t, Statement tp) {
+            test = t; casebranch = tp; defaultbranch = new Skip( );
+        }
+        
+        Switch (Expression t, Statement tp, Statement ep) {
+            test = t; casebranch = tp; defaultbranch = ep;
+        }
+    
+        boolean hasReturn() {
+            return (casebranch.hasReturn() || defaultbranch.hasReturn());
+        }
+    
+        boolean mustReturn() {
+            return (casebranch.hasReturn() && defaultbranch.hasReturn());
+        }
+    
+        /*
+        public void display() {
+            System.out.println("Switch: ");
+            System.out.print("\t"); test.display();
+            System.out.println("\t"); casebranch.display();	
+            System.out.println("\t"); defaultbranch.display();
+           } 
+        */
+    }
 
 class Loop extends Statement {
 // Loop = Expression test; Statement body
@@ -473,6 +512,11 @@ abstract class Value extends Expression {
         assert false : "should never reach here";
         return 0;
     }
+
+    long bigValue ( ) {
+        assert false : "should never reach here";
+        return 0;
+    }
     
     boolean boolValue ( ) {
         assert false : "should never reach here";
@@ -498,6 +542,7 @@ abstract class Value extends Expression {
         if (type == Type.BOOL) return new BoolValue( );
         if (type == Type.CHAR) return new CharValue( );
         if (type == Type.FLOAT) return new FloatValue( );
+        if (type == Type.BIG) return new BigValue( );
         throw new IllegalArgumentException("Illegal type in mkValue");
     }
 }
@@ -587,7 +632,29 @@ class FloatValue extends Value {
     }
 
 }
+class BigValue extends Value {
+    private long value = 0;
 
+    BigValue ( ) { type = Type.BIG; }
+
+    BigValue (long v) { this( ); value = v; undef = false; }
+
+    long BigValue ( ) {
+        assert !undef : "reference to undefined int value";
+        return value;
+    }
+
+    public String toString( ) {
+        if (undef)  return "undef";
+        return "" + value;
+    }
+
+    public boolean equals(Object obj) {
+    	BigValue iv = (BigValue) obj;
+	return iv.value == this.value;
+    }
+
+}
 class Binary extends Expression {
 // Binary = Operator op; Expression term1, term2
     Operator op;
@@ -653,10 +720,11 @@ class Operator {
     // UnaryOp = !    
     final static String NOT = "!";
     final static String NEG = "-NEG"; //This has been changed from "-" to "-NEG" to avoid ambiguity with MINUS
-    // CastOp = int | float | char
+    // CastOp = int | float | char | big
     final static String INT = "int";
     final static String FLOAT = "float";
     final static String CHAR = "char";
+    final static String BIG = "big";
     // Typed Operators
     // RelationalOp = < | <= | == | != | >= | >
     final static String INT_LT = "INT<";
@@ -665,6 +733,7 @@ class Operator {
     final static String INT_NE = "INT!=";
     final static String INT_GT = "INT>";
     final static String INT_GE = "INT>=";
+    
     // ArithmeticOp = + | - | * | /
     final static String INT_PLUS = "INT+";
     final static String INT_PLUSPLUS = "FLOAT~";
@@ -702,11 +771,24 @@ class Operator {
     final static String BOOL_NE = "BOOL!=";
     final static String BOOL_GT = "BOOL>";
     final static String BOOL_GE = "BOOL>=";
+    // RelationalOp = < | <= | == | != | >= | >
+    final static String BIG_LT = "BIG<";
+    final static String BIG_LE = "BIG<=";
+    final static String BIG_EQ = "BIG==";
+    final static String BIG_NE = "BIG!=";
+    final static String BIG_GT = "BIG>";
+    final static String BIG_GE = "BIG>=";
+    // ArithmeticOp = + | - | * | /
+    final static String BIG_PLUS = "BIG+";
+    final static String BIG_MINUS = "BIG-";
+    final static String BIG_TIMES = "BIG*";
+    final static String BIG_DIV = "BIG/";
     // Type specific cast
     final static String I2F = "I2F";
     final static String F2I = "F2I";
     final static String C2I = "C2I";
     final static String I2C = "I2C";
+    
     
     String val;
     

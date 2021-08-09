@@ -337,6 +337,15 @@ public class StaticTypeCheck {
 		V(b.members.get(i), tm);
 	    return;
 	}
+	if (s instanceof Switch) {
+	    Switch sw = (Switch) s;
+	    V(sw.test, tm);
+	    V(sw.casebranch, tm);
+	    V(sw.defaultbranch, tm);
+	    Type ttype = typeOf(sw.test, tm);
+	    check( ttype == Type.BOOL, "test expression not of type bool: " + sw.test);
+	    return;
+	}
 	if (s instanceof CallStatement) {
 		CallStatement c = (CallStatement) s;
 		//Looking for typemap associated with call's name

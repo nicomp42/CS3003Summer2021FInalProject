@@ -50,6 +50,7 @@ public class Semantics {
         if (s instanceof Conditional)  return M((Conditional)s, state);
         if (s instanceof Loop)  return M((Loop)s, state);
         if (s instanceof Block)  return M((Block)s, state);
+        if (s instanceof Switch)  return M((Switch)s, state);
 	if (s instanceof CallStatement) return M((CallStatement)s, state);
 	if (s instanceof Return) return M((Return)s, state);
 	if (s instanceof Print) return M((Print)s, state);
@@ -92,6 +93,14 @@ public class Semantics {
         if (M (l.test, state).boolValue( ) && !saw_ret)
             return M(l, M (l.body, state));
         else return state;
+    }
+
+    State M (Switch sw, State state) {
+        if (M(sw.test, state).boolValue( )) {
+            		return M (sw.casebranch, state);
+		} else {
+            		return M (sw.defaultbranch, state);
+		}
     }
 
     State M (CallStatement c, State state) {
