@@ -713,6 +713,7 @@ class Operator {
     final static String GE = ">=";
     // ArithmeticOp = + | - | * | /
     final static String PLUS = "+";
+    final static String PLUSPLUS = "~";
     final static String MINUS = "-";
     final static String TIMES = "*";
     final static String DIV = "/";
@@ -735,6 +736,7 @@ class Operator {
     
     // ArithmeticOp = + | - | * | /
     final static String INT_PLUS = "INT+";
+    final static String INT_PLUSPLUS = "FLOAT~";
     final static String INT_MINUS = "INT-";
     final static String INT_TIMES = "INT*";
     final static String INT_DIV = "INT/";
@@ -749,6 +751,7 @@ class Operator {
     final static String FLOAT_GE = "FLOAT>=";
     // ArithmeticOp = + | - | * | /
     final static String FLOAT_PLUS = "FLOAT+";
+    final static String FLOAT_PLUSPLUS = "FLOAT~";
     final static String FLOAT_MINUS = "FLOAT-";
     final static String FLOAT_TIMES = "FLOAT*";
     final static String FLOAT_DIV = "FLOAT/";
@@ -815,7 +818,7 @@ class Operator {
     boolean charOp ( ) { return val.equals(CHAR); }
 
     final static String intMap[ ] [ ] = {
-        {PLUS, INT_PLUS}, {MINUS, INT_MINUS},
+        {PLUS, INT_PLUS}, {PLUSPLUS, INT_PLUSPLUS}, {MINUS, INT_MINUS},
         {TIMES, INT_TIMES}, {DIV, INT_DIV},
         {EQ, INT_EQ}, {NE, INT_NE}, {LT, INT_LT},
         {LE, INT_LE}, {GT, INT_GT}, {GE, INT_GE},
@@ -823,7 +826,7 @@ class Operator {
     };
 
     final static String floatMap[ ] [ ] = {
-        {PLUS, FLOAT_PLUS}, {MINUS, FLOAT_MINUS},
+        {PLUS, FLOAT_PLUS}, {PLUSPLUS, FLOAT_PLUSPLUS}, {MINUS, FLOAT_MINUS},
         {TIMES, FLOAT_TIMES}, {DIV, FLOAT_DIV},
         {EQ, FLOAT_EQ}, {NE, FLOAT_NE}, {LT, FLOAT_LT},
         {LE, FLOAT_LE}, {GT, FLOAT_GT}, {GE, FLOAT_GE},

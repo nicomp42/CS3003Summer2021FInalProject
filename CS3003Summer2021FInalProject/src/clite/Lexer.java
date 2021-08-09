@@ -95,7 +95,10 @@ public class Lexer {
 
 	    case '*': ch = nextChar();
 		return Token.multiplyTok;
-
+	    
+            case '~': ch = nextChar();
+		return Token.plusplusTok;
+			    
 	    case '[': ch = nextChar();
 		return Token.leftBracketTok;
 	

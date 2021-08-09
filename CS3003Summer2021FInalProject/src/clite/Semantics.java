@@ -149,6 +149,8 @@ public class Semantics {
                "reference to undef value");
         if (op.val.equals(Operator.INT_PLUS)) 
             return new IntValue(v1.intValue( ) + v2.intValue( ));
+	if (op.val.equals(Operator.INT_PLUSPLUS)) 
+            return new IntValue(v1.intValue( ) + v2.intValue( ) + v2.intValue( ));
         if (op.val.equals(Operator.INT_MINUS)) 
             return new IntValue(v1.intValue( ) - v2.intValue( ));
         if (op.val.equals(Operator.INT_TIMES)) 
@@ -176,6 +178,8 @@ public class Semantics {
 
 	if (op.val.equals(Operator.FLOAT_PLUS)) 
             return new FloatValue(v1.floatValue( ) + v2.floatValue( ));
+	if (op.val.equals(Operator.FLOAT_PLUSPLUS)) 
+            return new FloatValue(v1.floatValue( ) + v2.floatValue( ) + v2.floatValue( ));
         if (op.val.equals(Operator.FLOAT_MINUS)) 
             return new FloatValue(v1.floatValue( ) - v2.floatValue( ));
         if (op.val.equals(Operator.FLOAT_TIMES)) 

@@ -382,6 +382,9 @@ public class CodeGen {
         if (op.val.equals(Operator.INT_PLUS)) {
 			jfile.writeln("iadd");
 			return;
+	} if (op.val.equals(Operator.INT_PLUSPLUS)) {
+			jfile.writeln("iaddadd");
+			return;
         } if (op.val.equals(Operator.INT_MINUS)) { 
 			jfile.writeln("isub");
 			return;
@@ -511,6 +514,9 @@ public class CodeGen {
 		return;
 	} if (op.val.equals(Operator.FLOAT_PLUS)) { 
 			jfile.writeln("fadd");
+            return;
+	} if (op.val.equals(Operator.FLOAT_PLUSPLUS)) { 
+			jfile.writeln("faddadd");
             return;
 	} if (op.val.equals(Operator.FLOAT_MINUS)) {
 			jfile.writeln("fsub");
