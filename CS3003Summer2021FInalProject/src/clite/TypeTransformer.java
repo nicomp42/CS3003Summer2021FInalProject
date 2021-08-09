@@ -45,6 +45,8 @@ public class TypeTransformer {
                 return new Binary(b.op.floatMap(b.op.val), t1,t2);
             } else if (typ1 == Type.CHAR) 
                 return new Binary(b.op.charMap(b.op.val), t1,t2);
+			else if (typ1 == Type.STRING)
+				return new Binary(b.op.stringMap(b.op.val), t1,t2);
             else if (typ1 == Type.BOOL) 
                 return new Binary(b.op.boolMap(b.op.val), t1,t2);
             throw new IllegalArgumentException("should never reach here");
@@ -60,6 +62,8 @@ public class TypeTransformer {
 		return new Unary(u.op.floatMap(u.op.val), t);
 	    else if (typ == Type.CHAR)
 		return new Unary(u.op.charMap(u.op.val), t);
+		else if (type == Type.STRING)
+		return new Unary(u.op.stringMap(u.op.val), t);
 	    else if (typ == Type.BOOL)
 		return new Unary(u.op.boolMap(u.op.val), t);
             throw new IllegalArgumentException("should never reach here");

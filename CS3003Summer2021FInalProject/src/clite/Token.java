@@ -18,6 +18,7 @@ public class Token {
     public static final Token ifTok = new Token(TokenType.If, "if");
     public static final Token intTok = new Token(TokenType.Int, "int");
     public static final Token mainTok = new Token(TokenType.Main, "main");
+    public static final Token stringTok = new Token(TokenType.String, "string");
     public static final Token trueTok = new Token(TokenType.True, "true");
     public static final Token whileTok = new Token(TokenType.While, "while");
     public static final Token whileTok = new Token(TokenType.For, "for");

@@ -171,7 +171,7 @@ public class CodeGen {
 		if (symtable.containsKey(target)) {
 			Type target_type = symtable.getType((Variable) a.target);
 			String store;
-			if (target_type.equals(Type.INT) || target_type.equals(Type.CHAR) || target_type.equals(Type.BOOL)) {
+			if (target_type.equals(Type.INT) || target_type.equals(Type.CHAR) || target_type.equals(Type.STRING) || target_type.equals(Type.BOOL)) {
 				store = "istore";
 			} else if (target_type.equals(Type.FLOAT)) {
 				store = "fstore";
@@ -184,7 +184,8 @@ public class CodeGen {
 			Type descriptor = global_symtable.get(target.id);
 			if (descriptor.equals(Type.INT) || 
 			descriptor.equals(Type.BOOL) || 
-			descriptor.equals(Type.CHAR))
+			descriptor.equals(Type.CHAR) ||
+			descriptor.equals(Type.STRING))
 				type = "I";
 			else // it's a float
 				type = "F";
@@ -277,6 +278,8 @@ public class CodeGen {
 		print_type = "I";
 	else if (e_type.equals(Type.CHAR)) 
 		print_type = "C";
+	else if (e_type.equals(Type.STRING))
+		print_type = "S";
 	else //It's a Bool
 		print_type = "Z";
 	
@@ -333,6 +336,7 @@ public class CodeGen {
             else if (u.op.intOp( ))    return (Type.INT);
             else if (u.op.floatOp( )) return (Type.FLOAT);
             else if (u.op.charOp( ))  return (Type.CHAR);
+			else if (u.op.stringOp( )) return (Type.STRING);
 	    System.out.println("nothing in Unary!");
         }
 	if (e instanceof CallExpression) {
@@ -554,6 +558,10 @@ public class CodeGen {
 				CharValue c = (CharValue) e;
 				jfile.writeln("ldc " + (int)c.charValue());
 				return;
+			} if (e instanceof StringValue) {
+				StringValue s = (StringValue) e;
+				jfile.writeln("ldc " + (int)s.stringValue());
+				return;
 			}
 	} if (e instanceof Variable) { 
 		Variable v = (Variable) e;
@@ -561,7 +569,7 @@ public class CodeGen {
 			Type v_type = symtable.getType(v);
 			String load = "null";
 			if (v_type.equals(Type.INT) || v_type.equals(Type.CHAR)
-				|| v_type.equals(Type.BOOL)) {
+				|| v_type.equals(Type.STRING) || v_type.equals(Type.BOOL)) {
 				load = "iload";
 			} else if (v_type.equals(Type.FLOAT)) {
 				load = "fload";
@@ -575,7 +583,8 @@ public class CodeGen {
 			Type descriptor = global_symtable.get(v.id);
 			if (descriptor.equals(Type.INT) || 
 			descriptor.equals(Type.BOOL) || 
-			descriptor.equals(Type.CHAR))
+			descriptor.equals(Type.CHAR) ||
+			descriptor.equals(Type.STRING))
 				type = "I";
 			else // it's a float
 				type = "F";

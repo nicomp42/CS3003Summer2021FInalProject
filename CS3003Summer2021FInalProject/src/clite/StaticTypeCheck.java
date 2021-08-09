@@ -181,6 +181,7 @@ public class StaticTypeCheck {
             else if (u.op.intOp( ))    return (Type.INT);
             else if (u.op.floatOp( )) return (Type.FLOAT);
             else if (u.op.charOp( ))  return (Type.CHAR);
+			else if (u.op.stringOp( )) return (Type.STRING);
         } if (e instanceof CallExpression) {
 	    CallExpression c = (CallExpression) e;
 	    FunctionMap fm = (FunctionMap) tm.get(new Variable(c.name));
@@ -241,7 +242,7 @@ public class StaticTypeCheck {
 		check( typ == Type.BOOL, u.op + ": non-bool operand");
 	    else if (u.op.NegateOp( ))
 		check( typ == Type.INT || typ == Type.FLOAT, "type error for " + u.op);
-	    else if (u.op.intOp( ) || u.op.floatOp( ) || u.op.charOp( ))
+	    else if (u.op.intOp( ) || u.op.floatOp( ) || u.op.charOp( ) || u.op.stringOp( ))
 		check( typ != Type.BOOL, u.op + ": bool operand");
 	    else
 		throw new IllegalArgumentException("should never reach here");
