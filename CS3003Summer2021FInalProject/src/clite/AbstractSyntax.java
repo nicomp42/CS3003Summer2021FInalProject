@@ -639,7 +639,7 @@ class BigValue extends Value {
 
     BigValue (long v) { this( ); value = v; undef = false; }
 
-    long BigValue ( ) {
+    long bigValue ( ) {
         assert !undef : "reference to undefined int value";
         return value;
     }
@@ -780,6 +780,7 @@ class Operator {
     final static String BIG_GE = "BIG>=";
     // ArithmeticOp = + | - | * | /
     final static String BIG_PLUS = "BIG+";
+    final static String BIG_PLUSPLUS = "BIG+";
     final static String BIG_MINUS = "BIG-";
     final static String BIG_TIMES = "BIG*";
     final static String BIG_DIV = "BIG/";

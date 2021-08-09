@@ -166,15 +166,33 @@ public class Semantics {
 	    return new BoolValue(v1.intValue() == v2.intValue());
 	if (op.val.equals(Operator.INT_NE))
 	    return new BoolValue(v1.intValue() != v2.intValue());
+    if (op.val.equals(Operator.BIG_LT))
+	    return new BoolValue(v1.bigValue() < v2.bigValue());
+	if (op.val.equals(Operator.BIG_GT))
+	    return new BoolValue(v1.bigValue() > v2.bigValue());
+	if (op.val.equals(Operator.BIG_EQ))
+	    return new BoolValue(v1.bigValue() == v2.bigValue());
+	if (op.val.equals(Operator.BIG_NE))
+	    return new BoolValue(v1.bigValue() != v2.bigValue());
 
-	if (op.val.equals(Operator.FLOAT_LT))
-	    return new BoolValue(v1.floatValue() < v2.floatValue());
-	if (op.val.equals(Operator.FLOAT_GT))
-	    return new BoolValue(v1.floatValue() > v2.floatValue());
-	if (op.val.equals(Operator.FLOAT_EQ))
-	    return new BoolValue(v1.floatValue() == v2.floatValue());
-	if (op.val.equals(Operator.FLOAT_NE))
-	    return new BoolValue(v1.floatValue() != v2.floatValue());
+	if (op.val.equals(Operator.BIG_PLUS)) 
+            return new FloatValue(v1.bigValue( ) + v2.bigValue( ));
+	if (op.val.equals(Operator.BIG_PLUSPLUS)) 
+            return new FloatValue(v1.bigValue( ) + v2.bigValue( ) + v2.bigValue( ));
+        if (op.val.equals(Operator.BIG_MINUS)) 
+            return new FloatValue(v1.bigValue( ) - v2.bigValue( ));
+        if (op.val.equals(Operator.BIG_TIMES))
+            return new FloatValue(v1.bigValue( ) * v2.bigValue( ));
+        if (op.val.equals(Operator.BIG_DIV)) 
+            return new FloatValue(v1.bigValue( ) / v2.bigValue( ));
+	if (op.val.equals(Operator.BIG_LT))
+	    return new BoolValue(v1.bigValue() < v2.bigValue());
+	if (op.val.equals(Operator.BIG_GT))
+	    return new BoolValue(v1.bigValue() > v2.bigValue());
+	if (op.val.equals(Operator.BIG_EQ))
+	    return new BoolValue(v1.bigValue() == v2.bigValue());
+	if (op.val.equals(Operator.BIG_NE))
+	    return new BoolValue(v1.bigValue() != v2.bigValue());
 
 	if (op.val.equals(Operator.FLOAT_PLUS)) 
             return new FloatValue(v1.floatValue( ) + v2.floatValue( ));
@@ -182,7 +200,7 @@ public class Semantics {
             return new FloatValue(v1.floatValue( ) + v2.floatValue( ) + v2.floatValue( ));
         if (op.val.equals(Operator.FLOAT_MINUS)) 
             return new FloatValue(v1.floatValue( ) - v2.floatValue( ));
-        if (op.val.equals(Operator.FLOAT_TIMES)) 
+        if (op.val.equals(Operator.FLOAT_TIMES))
             return new FloatValue(v1.floatValue( ) * v2.floatValue( ));
         if (op.val.equals(Operator.FLOAT_DIV)) 
             return new FloatValue(v1.floatValue( ) / v2.floatValue( ));

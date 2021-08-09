@@ -3,6 +3,7 @@
 int main() {
     int x;
     big j;
-    j=56;
+    big y;
+    y=j~56;
     switch ('A')  x = 86;
 } // main
