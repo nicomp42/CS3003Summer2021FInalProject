@@ -158,10 +158,10 @@ class Program {
 			return prefix + index + contents;
         } if (node instanceof Switch) { //similar to Conditional, above... implements "switch" control structure
             Switch switch_node = (Switch) node;
-            String prefix = spcing + "Switch:\n";
+            String prefix = spcing + "switch (" + switch_node.test +"):\n";
             String test = inner_display(spc, spc + spcing, switch_node.test);
-            String case_branch = spcing + "case:\n" + inner_display(spc, spc + spcing, switch_node.casebranch);
-            String default_branch = spcing +  "default:\n " + inner_display(spc, spc + spcing, switch_node.defaultbranch);
+            String case_branch = spc + spcing + "case 'x':\n" + inner_display(spc, spc + spc + spcing, switch_node.casebranch);
+            String default_branch = spc + spcing +  "default:\n " + inner_display(spc, spc + spc + spcing, switch_node.defaultbranch);
             return prefix + test + case_branch + default_branch;
 		} if (node instanceof Print) {
 			Print p_node = (Print) node;
