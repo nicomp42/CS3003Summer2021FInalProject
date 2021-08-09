@@ -40,7 +40,7 @@ public class Token {
     public static final Token notTok = new Token(TokenType.Not, "!");
     public static final Token noteqTok = new Token(TokenType.NotEqual, "!=");
     public static final Token plusTok = new Token(TokenType.Plus, "+");
-    public static final Token plusplusTok = new Token(TokenType.PlusPlus, "p");
+    public static final Token plusplusTok = new Token(TokenType.PlusPlus, "~");
     public static final Token minusTok = new Token(TokenType.Minus, "-");
     public static final Token multiplyTok = new Token(TokenType.Multiply, "*");
     public static final Token divideTok = new Token(TokenType.Divide, "/");
