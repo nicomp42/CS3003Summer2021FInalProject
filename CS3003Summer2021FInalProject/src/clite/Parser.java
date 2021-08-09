@@ -187,14 +187,16 @@ public class Parser {
 		t = Type.FLOAT;
 	} else if (token.type().equals(TokenType.Void)) {
 		t = Type.VOID;
-	} else error("int | bool | float | char");
+	}  else if (token.type().equals(TokenType.Big)) {
+		t = Type.BIG;
+	}else error("int | bool | float | char");
         // student exercise
         return t;          
     }
   
     private Statement statement() {
-        // Statement --> ; | Block | Assignment | IfStatement | WhileStatement | SwitchStatement | CallStatement | ReturnStatement | Print
-        // Statement --> ; | Block | Assignment | IfStatement | WhileStatement | SwitchStatement | Print
+        // Statement --> ; | Block | Assignment | IfStatement | WhileStatement | CallStatement | ReturnStatement | Print
+        // Statement --> ; | Block | Assignment | IfStatement | WhileStatement | Print
         Statement s = new Skip();
 	if (token.type().equals(TokenType.LeftBrace)) {
 		match(TokenType.LeftBrace);
@@ -211,11 +213,11 @@ public class Parser {
 		s = ifStatement();
 	} else if (token.type().equals(TokenType.While)) {
 		s = whileStatement();
-	} else if (token.type().equals(TokenType.Switch)) {
-		s = switchStatement();
 	} else if (token.type().equals(TokenType.Return)) {
 		s = returnStatement();
 		match(TokenType.Semicolon);
+	}else if (token.type().equals(TokenType.Switch)) {
+		s = switchStatement();
 	} else if (token.type().equals(TokenType.Print)) {
 		s = print();
 		match(TokenType.Semicolon);
@@ -291,9 +293,9 @@ public class Parser {
 	}
         return new Switch(test, tp);
     }
-
+	
     private Loop whileStatement () {
-    	// WhileStatement --> while ( Expression ) Statement
+        // WhileStatement --> while ( Expression ) Statement
 	match(token.type());
 	match(TokenType.LeftParen);
 	Expression test = expression();
@@ -308,8 +310,9 @@ public class Parser {
 	return new Return(new Variable("$ret"), result);
     }
 
+
     private Print print() {
-		// Print --> print ( Expression )
+	// Print --> print ( Expression )
 	match(token.type());
 	match(TokenType.LeftParen);
 	Expression to_print = expression();
@@ -494,6 +497,7 @@ public class Parser {
             || token.type().equals(TokenType.Bool) 
             || token.type().equals(TokenType.Float)
             || token.type().equals(TokenType.Char)
+			|| token.type().equals(TokenType.Big)
 	    || token.type().equals(TokenType.Void);
     }
     
@@ -501,7 +505,8 @@ public class Parser {
         return token.type().equals(TokenType.IntLiteral) ||
             isBooleanLiteral() ||
             token.type().equals(TokenType.FloatLiteral) ||
-            token.type().equals(TokenType.CharLiteral);
+            token.type().equals(TokenType.CharLiteral) ||
+			token.type().equals(TokenType.BigLiteral) ;
     }
     
     private boolean isBooleanLiteral( ) {
@@ -511,8 +516,8 @@ public class Parser {
     
     public static void main(String args[]) {
 //        Parser parser  = new Parser(new Lexer(args[0])); //Picks the file name and feeds it to the lexer.
-//        Parser parser  = new Parser(new Lexer("hello.cpp"));
-        Parser parser  = new Parser(new Lexer("CS3003Summer2021FInalProject/hello.cpp"));
+      Parser parser  = new Parser(new Lexer("CS3003Summer2021FInalProject/hello.cpp"));
+        //Parser parser  = new Parser(new Lexer("undeclaredVariable.cpp"));
         Program prog = parser.program();
         
         prog.applyTypeSystemRules();
