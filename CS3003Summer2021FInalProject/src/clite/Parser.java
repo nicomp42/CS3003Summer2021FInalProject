@@ -193,8 +193,8 @@ public class Parser {
     }
   
     private Statement statement() {
-        // Statement --> ; | Block | Assignment | IfStatement | WhileStatement | CallStatement | ReturnStatement | Print
-        // Statement --> ; | Block | Assignment | IfStatement | WhileStatement | Print
+        // Statement --> ; | Block | Assignment | IfStatement | WhileStatement | SwitchStatement | CallStatement | ReturnStatement | Print
+        // Statement --> ; | Block | Assignment | IfStatement | WhileStatement | SwitchStatement | Print
         Statement s = new Skip();
 	if (token.type().equals(TokenType.LeftBrace)) {
 		match(TokenType.LeftBrace);
@@ -211,6 +211,8 @@ public class Parser {
 		s = ifStatement();
 	} else if (token.type().equals(TokenType.While)) {
 		s = whileStatement();
+	} else if (token.type().equals(TokenType.Switch)) {
+		s = switchStatement();
 	} else if (token.type().equals(TokenType.Return)) {
 		s = returnStatement();
 		match(TokenType.Semicolon);
